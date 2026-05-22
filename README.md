@@ -15,7 +15,8 @@ Happy path (fork this template and bootstrap all agent workspaces in one command
 
 ```bash
 mkdir my-team && cd my-team
-aw team bootstrap --fork gh:awebai/aweb-team-dev-review --yes --home-root ./agents
+aw team bootstrap --fork gh:awebai/aweb-team-dev-review --yes
+# clones ./aweb-team-dev-review and bootstraps workspaces in ./aweb-team-dev-review/agents/*
 ```
 
 That command:
@@ -29,7 +30,7 @@ That command:
 Then run your agents:
 
 ```bash
-cd agents/implementation
+cd aweb-team-dev-review/agents/implementation
 aw run codex
 
 cd ../review
@@ -71,19 +72,23 @@ Agent directory names describe responsibilities, not fixed agent identities. `te
 
 - Use a local checkout of this template:
   ```bash
-  aw team bootstrap /path/to/aweb-team-dev-review --yes --home-root ./agents
+  aw team bootstrap /path/to/aweb-team-dev-review --yes
   ```
 - Use a remote template without forking:
   ```bash
-  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --home-root ./agents
+  aw team bootstrap gh:awebai/aweb-team-dev-review --yes
   ```
 - Non-interactive username:
   ```bash
-  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --home-root ./agents --username <username>
+  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --username <username>
   ```
 - If you run the command from inside an existing git repo, use a cache dir:
   ```bash
-  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --template-cache-dir /tmp/aw-templates --home-root ./agents
+  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --template-cache-dir /tmp/aw-templates
+  ```
+- Put the agent workspaces outside the template repo:
+  ```bash
+  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --home-root ./agents
   ```
 
 BYOD (self-hosted / local controller) one-step bootstrap:
@@ -91,7 +96,6 @@ BYOD (self-hosted / local controller) one-step bootstrap:
 ```bash
 aw team bootstrap gh:awebai/aweb-team-dev-review \
   --yes \
-  --home-root ./agents \
   --aweb-url http://localhost:8000 \
   --registry http://localhost:8010 \
   --namespace example.com \

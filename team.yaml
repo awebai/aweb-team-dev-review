@@ -1,0 +1,19 @@
+name: dev-review-two-agent
+instructions:
+  file: docs/team.md
+roles:
+  developer:
+    title: Developer
+    file: roles/developer.md
+  reviewer:
+    title: Reviewer
+    file: roles/reviewer.md
+agents:
+  implementation:
+    role_name: developer
+    default_name: builder
+    default_alias: dev
+  review:
+    role_name: reviewer
+    default_name: reviewer
+    default_alias: review

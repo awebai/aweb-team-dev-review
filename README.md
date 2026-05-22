@@ -14,7 +14,6 @@ aw --version
 Happy path (bootstrap all agent workspaces in one command):
 
 ```bash
-mkdir my-team && cd my-team
 aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes
 # clones ./aweb-team-dev-review and bootstraps workspaces in ./aweb-team-dev-review/agents/*
 ```

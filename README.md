@@ -2,13 +2,39 @@
 
 A minimal two-agent Aweb team template for implementation work with an independent review loop.
 
-This repository is meant to be used with:
+This repository is meant to be used with the `aw` CLI.
+
+Install `aw`:
 
 ```bash
-aw team bootstrap ./aweb-team-dev-review --work-repo ~/prj/my-project
+npm install -g @awebai/aw
+aw --version
 ```
 
-The bootstrap command reads `team.yaml`, installs the role playbooks as the active `aw roles` bundle, installs `docs/team.md` as shared team instructions, creates one home directory per responsibility under `agents/`, and prints the `aw init` commands needed to connect each generated workspace.
+Happy path (fork this template and bootstrap all agent workspaces in one command):
+
+```bash
+mkdir my-team && cd my-team
+aw team bootstrap --fork gh:awebai/aweb-team-dev-review --yes --home-root ./agents
+```
+
+That command:
+
+- reads `team.yaml`
+- installs the role playbooks as the active `aw roles` bundle
+- installs `docs/team.md` as shared `aw instructions`
+- materializes one agent directory per responsibility
+- (hosted default) prompts for a username, then creates + connects every agent workspace
+
+Then run your agents:
+
+```bash
+cd agents/implementation
+aw run codex
+
+cd ../review
+aw run codex
+```
 
 ## Structure
 
@@ -41,6 +67,39 @@ Agent directory names describe responsibilities, not fixed agent identities. `te
 | `implementation` | `builder` | `dev` | `developer` |
 | `review` | `reviewer` | `review` | `reviewer` |
 
-## Current bootstrap status
+## Options
 
-This template works with the first `aw team bootstrap` implementation. That implementation currently expects a local template directory. GitHub clone/fork support, locally controlled team selection/creation, and automatic per-agent `aw init` execution are planned follow-up slices.
+- Use a local checkout of this template:
+  ```bash
+  aw team bootstrap /path/to/aweb-team-dev-review --yes --home-root ./agents
+  ```
+- Use a remote template without forking:
+  ```bash
+  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --home-root ./agents
+  ```
+- Non-interactive username:
+  ```bash
+  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --home-root ./agents --username <username>
+  ```
+- If you run the command from inside an existing git repo, use a cache dir:
+  ```bash
+  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --template-cache-dir /tmp/aw-templates --home-root ./agents
+  ```
+
+BYOD (self-hosted / local controller) one-step bootstrap:
+
+```bash
+aw team bootstrap gh:awebai/aweb-team-dev-review \
+  --yes \
+  --home-root ./agents \
+  --aweb-url http://localhost:8000 \
+  --registry http://localhost:8010 \
+  --namespace example.com \
+  --team dev
+```
+
+If you do not yet have a local controller key for the namespace:
+
+```bash
+aw id create --domain example.com --name controller
+```

@@ -27,22 +27,57 @@ That command:
 - materializes one agent directory per responsibility
 - (hosted default) prompts for a username, then creates + connects every agent workspace
 
-Install the Claude Code channel plugin (do this once in Claude Code):
+Then start your agents (choose one runtime):
 
-```
-/plugin marketplace add awebai/claude-plugins
-/plugin install aweb-channel@awebai-marketplace
-```
-
-Then run Claude Code from each agent directory with the channel enabled:
+Claude Code:
 
 ```bash
 cd aweb-team-dev-review/agents/implementation
-claude --dangerously-load-development-channels plugin:aweb-channel@awebai-marketplace
+claude
 
 cd ../review
-claude --dangerously-load-development-channels plugin:aweb-channel@awebai-marketplace
+claude
 ```
+
+Codex:
+
+```bash
+cd aweb-team-dev-review/agents/implementation
+codex
+
+cd ../review
+codex
+```
+
+## Real-time awakenings for mail/chat (recommended)
+
+By default, agents do not automatically wake up when they receive aweb mail/chat. Without a wake-up path, you must manually check:
+
+```bash
+aw mail inbox
+aw chat pending
+```
+
+Pick one:
+
+- **Claude Code**: install the channel plugin, then start Claude Code with it enabled:
+  ```
+  /plugin marketplace add awebai/claude-plugins
+  /plugin install aweb-channel@awebai-marketplace
+  ```
+  ```bash
+  claude --dangerously-load-development-channels plugin:aweb-channel@awebai-marketplace
+  ```
+
+- **Codex**: start Codex through aweb so it can wake on incoming coordination:
+  ```bash
+  aw run codex
+  ```
+
+- **Pi**: install the Pi integration (awakening + bundled skills):
+  ```bash
+  pi install npm:@awebai/pi
+  ```
 
 ## Structure
 
@@ -70,10 +105,10 @@ Agent directory names describe responsibilities, not fixed agent identities. `te
 
 ## Included team
 
-| Responsibility | Default name | Default alias | Role name |
-|---|---:|---:|---|
-| `implementation` | `builder` | `dev` | `developer` |
-| `review` | `reviewer` | `review` | `reviewer` |
+| Responsibility   | Default name | Default alias | Role name   |
+|------------------|-------------:|--------------:|-------------|
+| `implementation` |    `builder` |         `dev` | `developer` |
+| `review`         |   `reviewer` |      `review` | `reviewer`  |
 
 ## Options
 
@@ -102,7 +137,7 @@ Agent directory names describe responsibilities, not fixed agent identities. `te
   aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes --home-root ./agents
   ```
 
-BYOD (self-hosted / local controller) one-step bootstrap:
+Bring Your Own Domain (BYOD, self-hosted / local controller) one-step bootstrap:
 
 ```bash
 aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git \

@@ -11,11 +11,11 @@ npm install -g @awebai/aw
 aw --version
 ```
 
-Happy path (fork this template and bootstrap all agent workspaces in one command):
+Happy path (bootstrap all agent workspaces in one command):
 
 ```bash
 mkdir my-team && cd my-team
-aw team bootstrap --fork gh:awebai/aweb-team-dev-review --yes
+aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes
 # clones ./aweb-team-dev-review and bootstraps workspaces in ./aweb-team-dev-review/agents/*
 ```
 
@@ -27,14 +27,21 @@ That command:
 - materializes one agent directory per responsibility
 - (hosted default) prompts for a username, then creates + connects every agent workspace
 
-Then run your agents:
+Install the Claude Code channel plugin (do this once in Claude Code):
+
+```
+/plugin marketplace add awebai/claude-plugins
+/plugin install aweb-channel@awebai-marketplace
+```
+
+Then run Claude Code from each agent directory with the channel enabled:
 
 ```bash
 cd aweb-team-dev-review/agents/implementation
-aw run codex
+claude --dangerously-load-development-channels plugin:aweb-channel@awebai-marketplace
 
 cd ../review
-aw run codex
+claude --dangerously-load-development-channels plugin:aweb-channel@awebai-marketplace
 ```
 
 ## Structure
@@ -74,27 +81,31 @@ Agent directory names describe responsibilities, not fixed agent identities. `te
   ```bash
   aw team bootstrap /path/to/aweb-team-dev-review --yes
   ```
-- Use a remote template without forking:
+- Use a remote template:
   ```bash
-  aw team bootstrap gh:awebai/aweb-team-dev-review --yes
+  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes
+  ```
+- Fork the template first (optional; requires GitHub CLI `gh`):
+  ```bash
+  aw team bootstrap --fork gh:awebai/aweb-team-dev-review --yes
   ```
 - Non-interactive username:
   ```bash
-  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --username <username>
+  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes --username <username>
   ```
 - If you run the command from inside an existing git repo, use a cache dir:
   ```bash
-  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --template-cache-dir /tmp/aw-templates
+  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes --template-cache-dir /tmp/aw-templates
   ```
 - Put the agent workspaces outside the template repo:
   ```bash
-  aw team bootstrap gh:awebai/aweb-team-dev-review --yes --home-root ./agents
+  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes --home-root ./agents
   ```
 
 BYOD (self-hosted / local controller) one-step bootstrap:
 
 ```bash
-aw team bootstrap gh:awebai/aweb-team-dev-review \
+aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git \
   --yes \
   --aweb-url http://localhost:8000 \
   --registry http://localhost:8010 \

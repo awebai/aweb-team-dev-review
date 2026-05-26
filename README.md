@@ -11,12 +11,19 @@ npm install -g @awebai/aw
 aw --version
 ```
 
-Happy path (bootstrap all agent workspaces in one command):
+Happy path (bootstrap all agent workspaces in one command, using an existing work directory):
 
 ```bash
-aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes
+aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git \
+  --yes \
+  --username <username> \
+  --work-directory /path/to/work
 # clones ./aweb-team-dev-review and bootstraps workspaces in ./aweb-team-dev-review/agents/*
 ```
+
+If you want hosted onboarding prompts, omit `--yes` and `--username`.
+If you use `--yes`, provide an explicit team source such as `--username`,
+`AWEB_API_KEY`, `--invite-token`, or `--namespace`/`--team`.
 
 That command:
 
@@ -24,7 +31,7 @@ That command:
 - installs the role playbooks as the active `aw roles` bundle
 - installs `docs/team.md` as shared `aw instructions`
 - materializes one agent directory per responsibility
-- (hosted default) prompts for a username, then creates + connects every agent workspace
+- connects the first generated workspace to the selected team source, then creates + connects every remaining agent workspace
 
 Then start your agents:
 
@@ -104,30 +111,30 @@ Agent directory names describe responsibilities, not fixed agent identities. `te
 
 - Use a local checkout of this template:
   ```bash
-  aw team bootstrap /path/to/aweb-team-dev-review --yes
+  aw team bootstrap /path/to/aweb-team-dev-review --work-directory /path/to/work
   ```
-- Use a remote template:
+- Use a remote template with hosted prompts:
   ```bash
-  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes
+  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --work-directory /path/to/work
   ```
 - Fork the template first (optional; requires GitHub CLI `gh`):
   ```bash
-  aw team bootstrap --fork gh:awebai/aweb-team-dev-review --yes
+  aw team bootstrap --fork gh:awebai/aweb-team-dev-review --work-directory /path/to/work
   ```
-- Non-interactive username:
+- Non-interactive hosted username:
   ```bash
-  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes --username <username>
+  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes --username <username> --work-directory /path/to/work
   ```
 - If you run the command from inside an existing git repo, use a cache dir:
   ```bash
-  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes --template-cache-dir /tmp/aw-templates
+  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --template-cache-dir /tmp/aw-templates --work-directory /path/to/work
   ```
 - Put the agent workspaces outside the template repo:
   ```bash
-  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes --home-root ./agents
+  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --home-root ./agents --work-directory /path/to/work
   ```
 
-Bring Your Own Domain (BYOD, self-hosted / local controller) one-step bootstrap:
+Bring Your Own Team (BYOT, including your own namespace/domain controller) one-step bootstrap:
 
 ```bash
 aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git \
@@ -135,11 +142,16 @@ aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git \
   --aweb-url http://localhost:8000 \
   --registry http://localhost:8010 \
   --namespace example.com \
-  --team dev
+  --team dev \
+  --work-directory /path/to/work
 ```
 
 If you do not yet have a local controller key for the namespace:
 
 ```bash
-aw id create --domain example.com --name controller
+aw id namespace prepare-controller --domain example.com
 ```
+
+## License
+
+This template is open source under the [MIT License](./LICENSE).

@@ -76,6 +76,21 @@ There are however solutions:
   pi install npm:@awebai/pi
   ```
 
+## Related skills and templates
+
+If your coding agent supports aweb skills (for example through `@awebai/pi`), load these when useful:
+
+- `aweb-bootstrap` — choose the right team source, work-directory/work-repo-url shape, and rerun-safety policy.
+- `aweb-coordination` — day-to-day work loop, claims, handoffs, and shared state.
+- `aweb-messaging` — mail/chat response policy and wake-up events.
+- `aweb-team-membership` — invites, active team, certificates, hosted vs BYOT, and addressability.
+- `aweb-identity` — identity, custody, `did:key`/`did:aw`, key rotation, and inbound mode.
+
+Other maintained templates:
+
+- [`aweb-team-company-surfaces`](https://github.com/awebai/aweb-team-company-surfaces) — six persistent company-surface agents plus developer worktrees.
+- [`aweb-team-coord-worktrees`](https://github.com/awebai/aweb-team-coord-worktrees) — one coordinator plus developer/reviewer worktree agents.
+
 ## Structure
 
 ```text

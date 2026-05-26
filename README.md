@@ -15,15 +15,14 @@ Happy path (bootstrap all agent workspaces in one command, using an existing wor
 
 ```bash
 aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git \
-  --yes \
   --username <username> \
   --work-directory /path/to/work
 # clones ./aweb-team-dev-review and bootstraps workspaces in ./aweb-team-dev-review/agents/*
 ```
 
-If you want hosted onboarding prompts, omit `--yes` and `--username`.
-If you use `--yes`, provide an explicit team source such as `--username`,
-`AWEB_API_KEY`, `--invite-token`, or `--namespace`/`--team`.
+If you want hosted onboarding prompts, omit `--username`.
+Default agent names from `team.yaml` are used automatically; pass
+`--ask-for-agent-names` only when you want to rename them interactively.
 
 That command:
 
@@ -138,7 +137,7 @@ Agent directory names describe responsibilities, not fixed agent identities. `te
   ```
 - Non-interactive hosted username:
   ```bash
-  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --yes --username <username> --work-directory /path/to/work
+  aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git --username <username> --work-directory /path/to/work
   ```
 - If you run the command from inside an existing git repo, use a cache dir:
   ```bash
@@ -153,7 +152,6 @@ Bring Your Own Team (BYOT, including your own namespace/domain controller) one-s
 
 ```bash
 aw team bootstrap https://github.com/awebai/aweb-team-dev-review.git \
-  --yes \
   --aweb-url http://localhost:8000 \
   --registry http://localhost:8010 \
   --namespace example.com \
